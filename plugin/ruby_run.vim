@@ -22,9 +22,13 @@ endfunction
 
 function! RubyRangeRun() range
   let TempFile = tempname()
-  silent execute ":'<,'>w " . TempFile
+  silent execute ":redir! > " . TempFile
+    silent! echon "require './resolume.rb'" . "\n"
+  :redir END
+  silent execute ":'<,'>w! >>" . TempFile
   echo system("ruby -w " . TempFile)
   silent execute "!rm -rf " . TempFile
+  execute ":redraw!"
 endfunction
 
 " ------------------------------------------------------------------------------
